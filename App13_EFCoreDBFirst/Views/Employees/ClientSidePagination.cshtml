@@ -1,0 +1,68 @@
+﻿@model IEnumerable<App13_EFCoreDBFirst.Models.Employee>
+
+@{
+    ViewData["Title"] = "ClientSidePagination";
+}
+
+<h1 class="alert alert-info">ClientSidePagination For Employee </h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Create New</a>
+</p>
+<table id="emptable" class="table table-responsive">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Salary)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PayBasis)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PositionTitle)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Salary)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PayBasis)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PositionTitle)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+
+@section Scripts{ 
+<script>
+    $(document).ready(function () {
+        $('#emptable').DataTable();
+    });
+</script>
+}

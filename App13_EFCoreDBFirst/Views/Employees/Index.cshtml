@@ -1,0 +1,221 @@
+﻿@model PaginatedList<App13_EFCoreDBFirst.Models.Employee>
+
+@{
+    ViewData["Title"] = "Index";
+    int i = 1;
+
+
+    int pagesize = 10;
+    int cp = Model.PageIndex;
+    int tp = Model.TotalPages;
+
+    int startpage = cp - 5;
+    int stoppage = cp + 5;
+
+
+    i = (cp - 1) * pagesize + 1;
+
+    string prevdisable = Model.HasPreviousPage ? "" : "disabled";
+    string nextdisabled = Model.HasNextPage ? "" : "disabled";
+}
+
+<h2 class="alert alert-info text-decoration-none">List Of Employes</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <a asp-action="Create" class="btn btn-primary">Create New Employe</a>
+    </div>
+    <div class="">
+        <form asp-action="Index" class="form-inline" method="get">
+            <input type="text" name="utext" value=" @ViewBag.txt" class="form-control" />
+            <button type="submit" class="btn btn-success">Search</button>
+            <label id="cb">Result Per Page</label>
+
+            <select name="range" >
+                <option>10</option>
+                <option>25</option>
+                <option>50</option>
+                <option>75</option>
+            </select>
+        </form>
+
+
+    </div>
+</div>
+<br />
+<br />
+
+
+
+<a asp-route-pageno="1"
+   asp-route-utext="@ViewBag.txt"
+   asp-route-sortparameter="@ViewBag.pramsort" class="btn btn-success">
+    First Page
+</a>
+
+<a asp-route-pageno="@(cp+1)"
+   asp-route-utext="@ViewBag.txt"
+   asp-route-sortparameter="@ViewBag.pramsort" class="btn btn-success @nextdisabled">
+    Next Page
+</a>
+
+<a asp-route-pageno="@(cp-1)"
+   asp-route-utext="@ViewBag.txt"
+   asp-route-sortparameter="@ViewBag.pramsort" class="btn btn-success @prevdisable">
+    Previous Page
+</a>
+
+<a asp-route-pageno="@tp"
+   asp-route-utext="@ViewBag.txt"
+   asp-route-sortparameter="@ViewBag.pramsort" class="btn btn-success">
+    Last Page
+</a>
+
+
+
+@if (ViewBag.txt != null)
+{
+    <h6 class="alert alert-danger">@Model.Count() results</h6>
+}
+
+
+
+<table class="table table-responsive table-striped">
+    <thead>
+        <tr>
+            <th>
+                SL
+            </th>
+
+            <th>
+                <a asp-action="Index" asp-route-utext="@ViewBag.txt" asp-route-sortparameter="@ViewBag.pramsort" asp-route-colname="empname">
+                    @*@Html.DisplayNameFor(model => model.EmployeeName)*@
+
+                    EmployeeName
+
+                </a>
+
+            </th>
+            <th>
+                @* @Html.DisplayNameFor(model => model.EmployeeStatus)*@
+
+                EmployeeStatus
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-utext="@ViewBag.txt" asp-route-sortparameter="@ViewBag.pramsort" asp-route-colname="empsal">
+                    @*@Html.DisplayNameFor(model => model.Salary)*@
+
+                    Salary
+                </a>
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.PayBasis)*@
+                PayBasis
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-utext="@ViewBag.txt" asp-route-sortparameter="@ViewBag.pramsort" asp-route-colname="postitle">
+                    @* @Html.DisplayNameFor(model => model.PositionTitle)*@
+                    PositionTitle
+                </a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @i.
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EmployeeName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EmployeeStatus)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Salary)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PayBasis)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PositionTitle)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+                i++;
+            }
+        }
+    </tbody>
+
+</table>
+@*@for (int j = 1; j <= tp; j++)
+    {
+        if (j==cp)
+        {
+            <a asp-route-pageno="@j"
+            asp-route-utext="@ViewBag.txt"
+            asp-route-sortparameter="@ViewBag.pramsort" class="btn btn-dark">
+            @j-5
+            </a>
+
+        }
+        else
+        {
+            <a asp-route-pageno="@j"
+               asp-route-utext="@ViewBag.txt"
+               asp-route-sortparameter="@ViewBag.pramsort" class="btn btn-success">
+                @j
+            </a>
+        }
+
+
+    }*@
+<a asp-route-pageno="1"
+   asp-route-utext="@ViewBag.txt"
+   asp-route-sortparameter="@ViewBag.pramsort" class="btn btn-success">
+    First Page
+</a>
+
+@for (int j = startpage; j <= stoppage; j++)
+{
+
+    if (j >0 && j<=tp)
+    {
+
+        if (j==cp)
+        {
+
+       
+        <a asp-route-pageno="@j"
+           asp-route-utext="@ViewBag.txt"
+           asp-route-sortparameter="@ViewBag.pramsort" class="btn btn-dark">
+            @j
+        </a>
+        }
+
+        else
+        {
+        <a asp-route-pageno="@j"
+           asp-route-utext="@ViewBag.txt"
+           asp-route-sortparameter="@ViewBag.pramsort" class="btn btn-success">
+            @j
+        </a>
+        }
+    }
+
+}
+
+<a asp-route-pageno="@tp"
+   asp-route-utext="@ViewBag.txt"
+   asp-route-sortparameter="@ViewBag.pramsort" class="btn btn-success">
+    Last Page
+</a>
